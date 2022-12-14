@@ -11,8 +11,8 @@ interface Post{
 }
 
 interface DetailedPost extends Post{
-    url: string
-    coments: string
+    html_url: string
+    comments: number
     user: string
 }
 
@@ -78,8 +78,8 @@ export const PostsProvider: React.FC<PostsProviderProps> = ({ children }) => {
                 body: response.data.body,
                 created_at: new Date(response.data.created_at),
                 updated_at: new Date(response.data.updated_at),
-                url: response.data.url,
-                coments: response.data.coments,
+                html_url: response.data.html_url,
+                comments: response.data.comments,
                 user: response.data.user.login,
             }
 

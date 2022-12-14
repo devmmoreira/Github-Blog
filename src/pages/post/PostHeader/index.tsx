@@ -1,35 +1,53 @@
+import { differenceInDays } from "date-fns"
+import { NavLink } from "react-router-dom"
+
 import { ArrowLeft, ArrowSquareOut, Calendar, ChatCircle } from "phosphor-react"
 import { Container, Content, Link, Nav, PostInfo } from "./style"
 
 import Github from '../../../assets/github.svg'
-import { NavLink } from "react-router-dom"
 
-export const PostHeader: React.FC = () => {
+interface PostHeaderProps{
+    title: string
+    user: string
+    updatedAt: Date
+    comments: number
+    url: string
+}
+
+export const PostHeader: React.FC<PostHeaderProps> = ({
+    comments,
+    title,
+    updatedAt,
+    user,
+    url
+}) => {
+    const postDays = differenceInDays(updatedAt, new Date())
+    
     return (
         <Container>
             <Nav>
                 <NavLink to="/">
                     <Link><ArrowLeft /> Voltar</Link>
                 </NavLink>
-                <Link>
+                <Link href={ url } target="_blank">
                     Ver no Github 
                     <ArrowSquareOut weight="fill"/>
                 </Link>
             </Nav>
             <Content>
-                <h1>JavaScript data types and data structures</h1>
+                <h1>{ title }</h1>
                 <PostInfo>
                     <label>
                         <img src={ Github } alt="avatar"/>
-                        <span>cameronwll</span>
+                        <span>{ user }</span>
                     </label>
                     <label>
                         <Calendar weight="fill"/>
-                        <span>Há 1 dia</span>
+                        <span>{`Há ${ postDays } ${ postDays > 1 ? "dias" : "dia" }`}</span>
                     </label>
                     <label>
                         <ChatCircle weight="fill"/>
-                        <span>5 comentários</span>
+                        <span>{`${ comments } ${ comments > 1 ? "comentários" : "comentário" }`}</span>
                     </label>
                 </PostInfo>
             </Content>

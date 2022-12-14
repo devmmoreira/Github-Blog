@@ -8,7 +8,7 @@ import { githubApi } from "../../../../services/github"
 interface UserInfo{
     login: string
     avatar_url: string
-    url: string
+    html_url: string
     name: string
     bio: string
     company: string
@@ -52,7 +52,7 @@ export const PresentationCard: React.FC = () => {
                     <h1>{ userInfo.name }</h1>
                     <p>{ userInfo.bio }</p>
                 </Description>
-                <Link href={ userInfo.url } target="_blank">
+                <Link href={ userInfo.html_url } target="_blank">
                     GITHUB
                     <ArrowSquareOut weight="fill" />
                 </Link>
