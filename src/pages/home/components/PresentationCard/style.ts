@@ -29,6 +29,7 @@ export const ProfileImage = styled.img`
 `
 
 export const ProfileInfo = styled.div`
+    min-height: 148px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

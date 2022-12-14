@@ -1,17 +1,38 @@
+import { differenceInDays } from 'date-fns'
 import { Container, Content, Header } from "./style"
 
-export const PostCard: React.FC = () => {
+interface PostCardProps{
+    title: string
+    number: string
+    updatedAt: Date
+    description: string
+}
+
+export const PostCard: React.FC<PostCardProps> = ({
+    description,
+    number,
+    title,
+    updatedAt
+}) => {
+
+    const postDays = differenceInDays(updatedAt, new Date())
+
+    const getShortDescription = (description: string) => {
+        if(description.length > 200){
+            return `${description.substring(0, 200)}...`
+        } else {
+            return description
+        }
+    }
+
     return(
-        <Container to={`/post/${"javaScript-data-types-and-data-structures"}`}>
+        <Container to={`/post/${number}`}>
             <Header>
-                <h1>JavaScript data types and data structures</h1>
-                <span>Há 1 dia</span>
+                <h1>{ title }</h1>
+                <span>{`Há ${ postDays } ${ postDays > 1 ? "dias" : "dia" }`}</span>
             </Header>
             <Content>
-                <p>Programming languages all have built-in data structures, 
-                but these often differ from one language to another. 
-                This article attempts to list the built-in data structures 
-                available in...</p>
+                <p>{ getShortDescription(description) }</p>
             </Content>
         </Container>
     )

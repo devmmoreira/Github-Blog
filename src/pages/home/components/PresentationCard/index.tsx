@@ -1,36 +1,73 @@
 import { Container, Description, Details, Link, ProfileImage, ProfileInfo } from "./style"
 import { Buildings, Users, ArrowSquareOut } from 'phosphor-react'
 
-import Avatar from '../../../../assets/avatar.png'
 import Github from '../../../../assets/github.svg'
+import { useEffect, useState } from "react"
+import { githubApi } from "../../../../services/github"
+
+interface UserInfo{
+    login: string
+    avatar_url: string
+    url: string
+    name: string
+    bio: string
+    company: string
+    followers: number
+}
 
 export const PresentationCard: React.FC = () => {
+
+    const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    useEffect(() => {
+        const getUserInfo = async() => {
+            try {
+                setIsLoading(true)
+                const response = await githubApi.get(`/users/MarcosPotato`)
+
+                if(response.data.message === "Not Found"){
+                    return
+                }
+
+                setUserInfo(response.data)
+            } catch (error: any) {
+                console.log(error)
+                return
+            } finally{
+                setIsLoading(false)
+            }
+        }
+
+        getUserInfo()
+    },[])
+
+    if(isLoading){ return <></> }
+
     return (
         <Container>
-            <ProfileImage src={ Avatar } alt="avatar"/>
+            <ProfileImage src={ userInfo.avatar_url } alt="avatar"/>
             <ProfileInfo>
                 <Description>
-                    <h1>Cameron Williamson</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam mollis 
-                    elementum quam, ut accumsan lacus fringilla id. In congue felis felis. 
-                    Suspendisse finibus, leo quis blandit molestie</p>
+                    <h1>{ userInfo.name }</h1>
+                    <p>{ userInfo.bio }</p>
                 </Description>
-                <Link>
+                <Link href={ userInfo.url } target="_blank">
                     GITHUB
-                    <ArrowSquareOut weight="fill"/>
+                    <ArrowSquareOut weight="fill" />
                 </Link>
                 <Details>
                     <label>
                         <img src={ Github } alt="avatar"/>
-                        <span>cameronwll</span>
+                        <span>{ userInfo.login }</span>
                     </label>
                     <label>
                         <Buildings weight="fill"/>
-                        <span>Rocketseat</span>
+                        <span>{ userInfo.company }</span>
                     </label>
                     <label>
                         <Users weight="fill"/>
-                        <span>32 seguidores</span>
+                        <span>{ userInfo.followers } seguidores</span>
                     </label>
                 </Details>
             </ProfileInfo>
