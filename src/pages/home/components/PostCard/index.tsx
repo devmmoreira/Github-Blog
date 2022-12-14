@@ -2,7 +2,7 @@ import { Container, Content, Header } from "./style"
 
 export const PostCard: React.FC = () => {
     return(
-        <Container>
+        <Container to={`/post/${"javaScript-data-types-and-data-structures"}`}>
             <Header>
                 <h1>JavaScript data types and data structures</h1>
                 <span>Há 1 dia</span>

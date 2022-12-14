@@ -1,6 +1,8 @@
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+import { fade } from "../../../../styles/animations";
 
-export const Container = styled.button`
+export const Container = styled(NavLink)`
     width: 100%;
     max-width: 416px;
     border: none;
@@ -10,6 +12,7 @@ export const Container = styled.button`
     padding: 32px;
     cursor: pointer;
     text-align: left;
+    animation: ${ fade } 250ms;
 
     &:active{
         transition: 200ms;
