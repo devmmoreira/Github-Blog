@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { usePosts } from "../../hooks/usePosts"
-import { PostHeader } from "./PostHeader"
-import { Container, Content } from "./style"
 
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
-import { unified } from "unified"
 import rehypeStringify from "rehype-stringify"
-/* import rehypeStringify from 'rehype-stringify' */
+import { unified } from "unified"
+
+import { PostHeader } from "./PostHeader"
+
+import { Container, Content } from "./style"
+import { toast } from "react-toastify"
 
 interface PostInfo{
     id: string
@@ -47,6 +49,7 @@ export const Post: React.FC = () => {
                 })
             } catch(error: any) {
                 console.log(error)
+                toast.error(error.message)
             }
         }
 

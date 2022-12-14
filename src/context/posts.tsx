@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useCallback, useEffect, useState } from "react"
 import { githubApi } from "../services/github"
+import { toast } from "react-toastify"
 
 interface Post{
     id: string
@@ -21,6 +22,7 @@ interface PostsContextParams{
     isFetching: boolean
     searchPost: (text: string) => Promise<void>
     getPostDetail: (postId: string) => Promise<DetailedPost>
+    loadPosts: () => Promise<void>
 }
 
 interface PostsProviderProps{
@@ -90,39 +92,41 @@ export const PostsProvider: React.FC<PostsProviderProps> = ({ children }) => {
         }
     },[])
 
-    useEffect(() => {
-        const getPosts = async() => {
-            try {
-                setIsFetching(true)
-                const response = await githubApi.get(`/search/issues?q=repo:MarcosPotato/github-blog`)
+    const loadPosts = useCallback(async(): Promise<void>  => {
+        setPosts([])
+        try {
+            setIsFetching(true)
+            const response = await githubApi.get(`/search/issues?q=repo:MarcosPotato/github-blog`)
 
-                if(response.data.total_count <= 0){
-                    console.log("Nenhum post encontrado")
-                    return
-                }
-
-                setPosts(response.data.items.map((item: any) => ({
-                    id: item.id,
-                    number: item.number,
-                    title: item.title,
-                    body: item.body,
-                    created_at: new Date(item.created_at),
-                    updated_at: new Date(item.updated_at),
-                })))
-
-            } catch (error: any) {
-                console.log(error)
+            if(response.data.total_count <= 0){
+                console.log("Nenhum post encontrado")
                 return
-            } finally{
-                setIsFetching(false)
             }
-        }
 
-        getPosts()
+            setPosts(response.data.items.map((item: any) => ({
+                id: item.id,
+                number: item.number,
+                title: item.title,
+                body: item.body,
+                created_at: new Date(item.created_at),
+                updated_at: new Date(item.updated_at),
+            })))
+
+        } catch (error: any) {
+            console.log(error)
+            toast.error(error.message)
+            return
+        } finally{
+            setIsFetching(false)
+        }
+    },[])
+
+    useEffect(() => {
+        loadPosts()
     },[])
 
     return(
-        <PostsContext.Provider value={{ posts, isFetching, searchPost, getPostDetail }}>
+        <PostsContext.Provider value={{ posts, isFetching, loadPosts, searchPost, getPostDetail }}>
             { children }
         </PostsContext.Provider>
     )

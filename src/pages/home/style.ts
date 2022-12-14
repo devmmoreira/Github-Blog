@@ -56,3 +56,50 @@ export const PostsContainer = styled.div`
     gap: 32px;
     margin-bottom: 32px;
 `
+
+export const InputGroup = styled.label`
+    position: relative;
+    width: 100%;
+`
+
+export const InputButton = styled.button`
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${ props => props.theme['base-input'] };
+    cursor: pointer;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    
+    svg{
+        width: 22px;
+        height: 22px;
+        color: ${ props => props.theme['base-text'] };
+        /* pointer-events: none; */
+    }
+
+    &:hover{
+        transition: 200ms;
+        opacity: 0.9;
+        background-color: ${ props => props.theme['base-profile'] };
+    }
+
+    &:active{
+        transition: 200ms;
+        opacity: 0.8;
+        background-color: ${ props => props.theme['base-profile'] };
+    }
+`
+
+export const LoadingContainer = styled.span`
+    margin: 0 auto;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 160%;
+    color: ${ props => props.theme['blue'] };
+`

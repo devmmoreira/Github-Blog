@@ -5,6 +5,8 @@ import { ArrowLeft, ArrowSquareOut, Calendar, ChatCircle } from "phosphor-react"
 import { Container, Content, Link, Nav, PostInfo } from "./style"
 
 import Github from '../../../assets/github.svg'
+import { usePosts } from "../../../hooks/usePosts"
+import { LoadingContainer } from "../../home/style"
 
 interface PostHeaderProps{
     title: string
@@ -21,6 +23,7 @@ export const PostHeader: React.FC<PostHeaderProps> = ({
     user,
     url
 }) => {
+    const { isFetching } = usePosts()
     const postDays = differenceInDays(updatedAt, new Date())
     
     return (
@@ -35,21 +38,29 @@ export const PostHeader: React.FC<PostHeaderProps> = ({
                 </Link>
             </Nav>
             <Content>
-                <h1>{ title }</h1>
-                <PostInfo>
-                    <label>
-                        <img src={ Github } alt="avatar"/>
-                        <span>{ user }</span>
-                    </label>
-                    <label>
-                        <Calendar weight="fill"/>
-                        <span>{`Há ${ postDays } ${ postDays > 1 ? "dias" : "dia" }`}</span>
-                    </label>
-                    <label>
-                        <ChatCircle weight="fill"/>
-                        <span>{`${ comments } ${ comments > 1 ? "comentários" : "comentário" }`}</span>
-                    </label>
-                </PostInfo>
+                { isFetching ? (
+                    <LoadingContainer>
+                        Carregando...
+                    </LoadingContainer>
+                ):(
+                    <>
+                    <h1>{ title }</h1>
+                    <PostInfo>
+                        <label>
+                            <img src={ Github } alt="avatar"/>
+                            <span>{ user }</span>
+                        </label>
+                        <label>
+                            <Calendar weight="fill"/>
+                            <span>{`Há ${ postDays } ${ postDays > 1 ? "dias" : "dia" }`}</span>
+                        </label>
+                        <label>
+                            <ChatCircle weight="fill"/>
+                            <span>{`${ comments } ${ comments > 1 ? "comentários" : "comentário" }`}</span>
+                        </label>
+                    </PostInfo>
+                    </>
+                ) }
             </Content>
         </Container>
     )

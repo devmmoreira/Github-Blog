@@ -4,6 +4,7 @@ import { Buildings, Users, ArrowSquareOut } from 'phosphor-react'
 import Github from '../../../../assets/github.svg'
 import { useEffect, useState } from "react"
 import { githubApi } from "../../../../services/github"
+import { toast } from "react-toastify"
 
 interface UserInfo{
     login: string
@@ -33,6 +34,7 @@ export const PresentationCard: React.FC = () => {
                 setUserInfo(response.data)
             } catch (error: any) {
                 console.log(error)
+                toast.error(error.message)
                 return
             } finally{
                 setIsLoading(false)
