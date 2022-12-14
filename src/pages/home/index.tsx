@@ -1,5 +1,6 @@
+import { PostCard } from "./components/PostCard"
 import { PresentationCard } from "./components/PresentationCard"
-import { Container, SearchInput, SearchPost } from "./style"
+import { Container, PostsContainer, SearchInput, SearchPost } from "./style"
 
 export const Home: React.FC = () => {
     return (
@@ -10,6 +11,13 @@ export const Home: React.FC = () => {
                 <p>6 publicações</p>
                 <SearchInput name="search" type="text" placeholder="Buscar conteúdo"/>
             </SearchPost>
+            <PostsContainer>
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+            </PostsContainer>
         </Container>
     )
 }

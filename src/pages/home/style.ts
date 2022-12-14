@@ -45,3 +45,12 @@ export const SearchInput = styled.input`
         color: ${ props => props.theme['base-label'] };
     }
 `
+
+export const PostsContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-bottom: 32px;
+`
